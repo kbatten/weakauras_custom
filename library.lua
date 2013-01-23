@@ -6,15 +6,16 @@ function()
     end
     
     function WA:SpellRange(...)
-        local function IsSpellInRange_patch(arg1, arg2, arg3)
-            if ""..arg1 == "Frost Bomb" then
-                arg1 = "Frostfire Bolt"
+        local function IsSpellInRange(...)
+            local r = {...}
+            if ""..r[1] == "Frost Bomb" then
+                r[1] = "Frostfire Bolt"
             end
-            return IsSpellInRange(arg1, arg2, arg3)
+            return _G["IsSpellInRange"](unpack(r))
         end
         
         for _, spellName in pairs({...}) do
-            if (IsSpellInRange_patch(spellName, "target") or 0) == 1 then
+            if (IsSpellInRange(spellName, "target") or 0) == 1 then
                 return true
             end
         end
@@ -89,15 +90,16 @@ function()
     end
     
     function WA:SpellCost(spellName, buffer)
-        local function GetSpellInfo_patch(arg1, arg2)
-            if ""..arg1 == "Jab" then
-                arg1 = "Expel Harm"
+        local function GetSpellInfo(...)
+            local r = {...}
+            if ""..r[1] == "Jab" then
+                r[1] = "Expel Harm"
             end
-            return GetSpellInfo(arg1, arg2)
+            return _G["GetSpellInfo"](unpack(r))
         end
         
         buffer = buffer or 0
-        local _, _, _, cost, _, powerType = GetSpellInfo_patch(spellName)
+        local _, _, _, cost, _, powerType = GetSpellInfo(spellName)
         if cost and UnitPower("player", powerType) >= (cost + buffer) then
             return true
         end
