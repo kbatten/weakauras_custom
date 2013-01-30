@@ -7,11 +7,11 @@ function()
     
     function WA:SpellRange(...)
         local function IsSpellInRange(...)
-            local r = {...}
-            if ""..r[1] == "Frost Bomb" then
-                r[1] = "Frostfire Bolt"
+            local args = {...}
+            if ""..args[1] == "Frost Bomb" then
+                args[1] = "Frostfire Bolt"
             end
-            return _G["IsSpellInRange"](unpack(r))
+            return _G["IsSpellInRange"](unpack(args))
         end
         
         for _, spellName in pairs({...}) do
