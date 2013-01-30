@@ -96,7 +96,7 @@ function()
                 if index then
                     r[index] = value
                 end
-                return r
+                return unpack(r)
             end
             
             local args = {...}
@@ -107,7 +107,7 @@ function()
                 cost = 40
                 index = 4
             end
-            return unpack(replace_retval(index, cost, _G["GetSpellInfo"](unpack(args))))
+            return replace_retval(index, cost, _G["GetSpellInfo"](unpack(args)))
         end
         
         buffer = buffer or 0
