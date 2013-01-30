@@ -91,11 +91,23 @@ function()
     
     function WA:SpellCost(spellName, buffer)
         local function GetSpellInfo(...)
-            local r = {...}
-            if ""..r[1] == "Jab" then
-                r[1] = "Expel Harm"
+            local function replace_retval(index, value, ...)
+                local r = {...}
+                if index then
+                    r[index] = value
+                end
+                return r
             end
-            return _G["GetSpellInfo"](unpack(r))
+            
+            local args = {...}
+            local cost = nil
+            local index = nil
+            -- Jab and Expel Harm show 0 cost as a ox stance
+            if ""..args[1] == "Jab" or ""..args[1] == "Expel Harm" then
+                cost = 40
+                index = 4
+            end
+            return unpack(replace_retval(index, cost, _G["GetSpellInfo"](unpack(args))))
         end
         
         buffer = buffer or 0
