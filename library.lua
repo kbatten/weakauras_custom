@@ -1,7 +1,7 @@
 function()
     WA = {}
     
-    function WA:UnitKillable()
+    function WA:TargetKillable()
         return UnitCanAttack("player", "target") and not UnitIsDeadOrGhost("target")
     end
     
